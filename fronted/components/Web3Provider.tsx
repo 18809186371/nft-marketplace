@@ -1,11 +1,9 @@
 'use client'
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { ethers, BrowserProvider, JsonRpcProvider, Contract } from 'ethers';
-import Web3Modal from 'web3modal';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-// 1. 定义Context中要共享的数据和函数类型
 interface Web3ContextType {
   provider: BrowserProvider | JsonRpcProvider | null;
   signer: ethers.Signer | null;
@@ -16,36 +14,66 @@ interface Web3ContextType {
   getContract: (address: string, abi: any) => Contract | null;
 }
 
-// 2. 创建Context
 const Web3Context = createContext<Web3ContextType | undefined>(undefined);
 
-// 3. Web3Modal配置
-const web3Modal = new Web3Modal({
-  network: 'localhost', // 默认网络，可配置
-  cacheProvider: true, // 缓存用户上次选择的钱包
-  providerOptions: {}, // 可以配置特定钱包，如WalletConnect
-});
+// 创建一个变量来缓存实例，避免重复创建
+let web3Modal: any;
+
+// 动态导入Web3Modal，仅在客户端执行
+const getWeb3Modal = async () => {
+  if (typeof window === 'undefined') {
+    return null; // 服务端直接返回null
+  }
+  if (!web3Modal) {
+    const Web3Modal = (await import('web3modal')).default;
+    web3Modal = new Web3Modal({
+      network: 'localhost',
+      cacheProvider: true,
+      providerOptions: {}, // 可在此配置walletconnect等
+    });
+  }
+  return web3Modal;
+};
 
 export function Web3Provider({ children }: { children: ReactNode }) {
   const [provider, setProvider] = useState<BrowserProvider | JsonRpcProvider | null>(null);
   const [signer, setSigner] = useState<ethers.Signer | null>(null);
   const [address, setAddress] = useState<string | null>(null);
+  const [isClient, setIsClient] = useState(false); // 新增：标记客户端
 
-  // 初始化：检查缓存的连接
+  // 关键：在useEffect中标记客户端，并初始化只读Provider
   useEffect(() => {
-    if (web3Modal.cachedProvider) {
-      connectWallet();
-    } else {
-      // 没有缓存时，创建一个只读的提供者用于读取数据
-      const defaultProvider = new JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
-      setProvider(defaultProvider);
-    }
+    setIsClient(true); // 组件挂载后，说明已在客户端
+
+    // 初始化一个默认的只读提供者（用于读取数据）
+    const defaultProvider = new JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
+    setProvider(defaultProvider);
+
+    // 如果缓存中有provider，则自动连接（用户体验优化）
+    const initCachedConnection = async () => {
+      const modal = await getWeb3Modal();
+      if (modal && modal.cachedProvider) {
+        // 短暂延迟，确保DOM就绪
+        setTimeout(() => {
+          connectWallet();
+        }, 500);
+      }
+    };
+    initCachedConnection();
   }, []);
 
-  // 连接钱包函数
   const connectWallet = async () => {
+    // 确保在客户端执行
+    if (!isClient) return;
+
+    const modal = await getWeb3Modal();
+    if (!modal) {
+      toast.error('Web3Modal not available on server');
+      return;
+    }
+
     try {
-      const instance = await web3Modal.connect();
+      const instance = await modal.connect();
       const web3Provider = new BrowserProvider(instance);
       const web3Signer = await web3Provider.getSigner();
       const userAddress = await web3Signer.getAddress();
@@ -69,28 +97,32 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       });
 
       toast.success('Wallet connected!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Connection error:', error);
-      toast.error('Failed to connect wallet.');
+      // 用户拒绝连接是常见情况，不报错
+      if (error.code !== 4001) {
+        toast.error(`Failed to connect: ${error.message}`);
+      }
     }
   };
 
-  // 断开连接
-  const disconnectWallet = () => {
-    if (web3Modal.cachedProvider) {
-      web3Modal.clearCachedProvider();
+  const disconnectWallet = async () => {
+    if (!isClient) return;
+
+    const modal = await getWeb3Modal();
+    if (modal && modal.cachedProvider) {
+      modal.clearCachedProvider();
     }
+    // 断开后，恢复为只读Provider
     setProvider(new JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL));
     setSigner(null);
     setAddress(null);
     toast.info('Wallet disconnected.');
   };
 
-  // 获取合约实例的辅助函数
   const getContract = (address: string, abi: any): Contract | null => {
     if (!provider) return null;
     try {
-      // 如果存在签名者，使用签名者（可写），否则使用只读提供者
       const contractSigner = signer || provider;
       return new Contract(address, abi, contractSigner);
     } catch (error) {
@@ -103,7 +135,7 @@ export function Web3Provider({ children }: { children: ReactNode }) {
     provider,
     signer,
     address,
-    isConnected: !!address,
+    isConnected: !!address && isClient,
     connectWallet,
     disconnectWallet,
     getContract,
@@ -116,7 +148,6 @@ export function Web3Provider({ children }: { children: ReactNode }) {
   );
 }
 
-// 4. 自定义Hook，方便在组件中使用Context
 export function useWeb3() {
   const context = useContext(Web3Context);
   if (context === undefined) {

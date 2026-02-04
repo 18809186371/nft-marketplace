@@ -1,9 +1,9 @@
-import { Contract } from 'ethers'
-import NFT_ABI from '@/contracts/abi/SimpleNFT.json'
-import MARKET_ABI from '@/contracts/abi/NFTMarketplace.json'
+import { Contract } from 'ethers';
+import NFT_ABI from '../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json';
+import MARKET_ABI from '../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json';
 
-const NFT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string
-const MARKET_ADDRESS = process.env.NEXT_PUBLIC_MARKETPLACE_CONTRACT_ADDRESS as string
+const NFT_ADDRESS = process.env.NEXT_PUBLIC_NFT_ADDRESS as string
+const MARKET_ADDRESS = process.env.NEXT_PUBLIC_NFT_MARKETPLACE_ADDRESS as string
 
 // 这是一个简单的工厂函数，实际使用时，结合 useWeb3() 中的 getContract
 export const getNFTContract = (signerOrProvider: any): Contract => {
