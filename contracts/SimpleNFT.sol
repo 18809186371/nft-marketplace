@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-// 手动定义一个最简化的 ERC-721 接口，用于实现核心功能
 interface IERC721 {
     function balanceOf(address owner) external view returns (uint256 balance);
     function ownerOf(uint256 tokenId) external view returns (address owner);
@@ -11,7 +10,7 @@ interface IERC721 {
 contract SimpleNFT {
     string public name = "SimpleNFT";
     string public symbol = "SNFT";
-    uint256 public totalSupply; // 当前Token ID，也代表总供应量
+    uint256 public totalSupply;
     mapping(uint256 => address) private _owners; // Token ID => 所有者
     mapping(address => uint256) private _balances; // 地址 => 拥有的数量
 
