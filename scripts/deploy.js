@@ -1,18 +1,19 @@
-const hre = require('hardhat');
+const hre = require("hardhat");
 
 async function main() {
-    const SimpleNFT = await hre.ethers.getContractFactory('SimpleNFT');
-    const simpleNFT = await SimpleNFT.deploy();
-    await simpleNFT.waitForDeployment();
-    const simpleAddress = await simpleNFT.getAddress();
-    console.log("SimpleNFT deployed to:", simpleAddress);
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying with account:", deployer.address);
 
+  const SimpleNFT = await hre.ethers.getContractFactory("SimpleNFT");
+  const simpleNFT = await SimpleNFT.deploy();
+  await simpleNFT.waitForDeployment();
+  const nftAddress = await simpleNFT.getAddress();
+  console.log("SimpleNFT at:", nftAddress);
 
-    const NFTMarketPlace = await hre.ethers.getContractFactory('NFTMarketPlace');
-    const nftMarketPlace = await NFTMarketPlace.deploy();
-    await nftMarketPlace.waitForDeployment();
-    const marketAddress = await nftMarketPlace.getAddress();
-    console.log("NFTNFTMarketPlace deployed to:", marketAddress);
+  const Marketplace = await hre.ethers.getContractFactory("NFTMarketPlace");
+  const marketplace = await Marketplace.deploy();
+  await marketplace.waitForDeployment();
+  console.log("Marketplace at:", await marketplace.getAddress());
 }
 
 main().catch((error) => {
