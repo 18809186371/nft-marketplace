@@ -2,7 +2,7 @@
 
 import { MintFormData, } from './types'
 import { ethers } from 'ethers'
-import NFT_ABI from '../../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
+import NFT_ABI from '../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
 
 const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string
 
