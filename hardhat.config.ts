@@ -11,4 +11,7 @@ module.exports = {
       chainId: 11155111, // 明确指定Sepolia的链ID
     },
   },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  }
 };

@@ -77,7 +77,11 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       const web3Provider = new BrowserProvider(instance);
       const web3Signer = await web3Provider.getSigner();
       const userAddress = await web3Signer.getAddress();
-
+      console.log({
+        web3Provider,
+        web3Signer,
+        userAddress,
+      })
       setProvider(web3Provider);
       setSigner(web3Signer);
       setAddress(userAddress);
