@@ -56,10 +56,12 @@ export default function NFTCard({ nft, showActions = true, onBuyClick }: NFTCard
         <Image
           src={nft.image || '/placeholder-nft.png'}
           alt={nft.name}
-          fill
+          fill unoptimized
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
+        {/* <img src={nft.image || '/placeholder-nft.png'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> */}
+
         
         <div className="absolute top-4 left-4">
           <div className="flex items-center gap-1 px-3 py-1.5 bg-black/70 backdrop-blur-sm rounded-full">

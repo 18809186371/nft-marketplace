@@ -40,7 +40,7 @@ export default function MarketplacePage() {
             <h2 className="text-3xl font-bold mb-2">精选藏品</h2>
             <p className="text-gray-600">发现最受欢迎和最新的数字藏品</p>
           </div>
-          <div className="hidden md:flex gap-3">
+          {/* <div className="hidden md:flex gap-3">
             <select className="px-4 py-2 border border-gray-300 rounded-lg bg-white">
               <option>所有类别</option>
               <option>艺术品</option>
@@ -48,7 +48,7 @@ export default function MarketplacePage() {
               <option>虚拟土地</option>
               <option>游戏资产</option>
             </select>
-          </div>
+          </div> */}
         </div>
 
         {/* NFT列表 */}

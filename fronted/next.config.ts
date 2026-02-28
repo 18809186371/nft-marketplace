@@ -5,16 +5,21 @@ import type { NextConfig } from "next";
 const nextConfig = {
   reactCompiler: true,
   images: {
-    // 允许加载图片的域名（在这里添加你需要的所有图片源）
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'picsum.photos', // 允许 picsum.photos 的所有子域名
-        pathname: '/**', // 允许所有路径
+        hostname: 'picsum.photos',
+        pathname: '/**',
       },
       {
         protocol: 'https',
-        hostname: '**.picsum.photos', // 更精确的模式，匹配所有子域名
+        hostname: '**.picsum.photos',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ipfs.io',
+        port: '',
+        pathname: '/ipfs/**', // This pattern matches the path in your error
       },
       // 如果未来需要其他图床，在这里添加
       // {

@@ -4,27 +4,12 @@ import NFTCard from './NFTCard'
 import { Loader2, Search, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-// import { fetchListedNFTs } from '@/lib/marketplace'
-
-// 模拟数据（实际应从合约获取）
-const mockNFTs = [
-  {
-    id: 1,
-    tokenId: 1,
-    name: 'Crypto Punk #9999',
-    description: 'A rare CryptoPunk with unique attributes and historical significance.',
-    image: 'https://picsum.photos/seed/nft1/400/400',
-    price: '100000000000000000', // 0.1 ETH in wei
-    seller: '0x742d35Cc6634C0532925a3b844Bc9e100E090b0C',
-    contractAddress: '0x...',
-    isListed: true
-  },
-  // 添加更多模拟数据...
-]
+import { fetchListedNFTs } from '@/lib/marketplace'
 
 export default function NFTList() {
   const [nfts, setNfts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<'price' | 'newest'>('newest')
 
@@ -34,35 +19,33 @@ export default function NFTList() {
 
   const loadNFTs = async () => {
     setLoading(true)
+    setError(null)
     try {
-      // 实际应从合约获取数据
-      // const listedNFTs = await fetchListedNFTs()
-      // setNfts(listedNFTs)
-      
-      // 暂时使用模拟数据
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      setNfts(mockNFTs)
-    } catch (error) {
-      console.error('加载NFT失败:', error)
+      const listedNFTs = await fetchListedNFTs()
+      setNfts(listedNFTs)
+    } catch (err: any) {
+      console.error('加载NFT失败:', err)
+      setError(err.message || '加载失败，请稍后重试')
     } finally {
       setLoading(false)
     }
   }
 
-  const filteredNFTs = nfts.filter(nft =>
-    nft.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    nft.description.toLowerCase().includes(searchQuery.toLowerCase())
-  ).sort((a, b) => {
-    if (sortBy === 'price') {
-      return BigInt(a.price) > BigInt(b.price) ? 1 : -1
-    }
-    return b.id - a.id
-  })
+  const filteredNFTs = nfts
+    .filter(nft =>
+      nft.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      nft.description.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (sortBy === 'price') {
+        return BigInt(a.price) > BigInt(b.price) ? 1 : -1
+      }
+      return b.id - a.id // 按 tokenId 降序（最新上架）
+    })
 
   const handleBuyClick = (nft: any) => {
-    // 实际购买逻辑
     console.log('购买NFT:', nft)
-    // 这里会调用合约的 buyItem 函数
+    // 实际购买逻辑将调用合约的 buyItem
   }
 
   if (loading) {
@@ -70,6 +53,17 @@ export default function NFTList() {
       <div className="flex justify-center items-center py-20">
         <Loader2 className="h-12 w-12 animate-spin text-purple-600" />
         <span className="ml-3 text-gray-600">加载NFT市场中...</span>
+      </div>
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="text-center py-20">
+        <div className="text-5xl mb-4">⚠️</div>
+        <h3 className="text-xl font-semibold mb-2">加载失败</h3>
+        <p className="text-gray-600 mb-6">{error}</p>
+        <Button onClick={loadNFTs}>重试</Button>
       </div>
     )
   }
@@ -117,7 +111,7 @@ export default function NFTList() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredNFTs.map((nft) => (
             <NFTCard
-              key={nft.tokenId}
+              key={`${nft.contractAddress}-${nft.tokenId}`}
               nft={nft}
               onBuyClick={handleBuyClick}
             />
@@ -132,7 +126,7 @@ export default function NFTList() {
         </div>
       )}
 
-      {/* 分页 */}
+      {/* 分页（暂未实现，保留占位） */}
       {filteredNFTs.length > 0 && (
         <div className="flex justify-center items-center gap-2">
           <Button variant="outline" disabled>上一页</Button>

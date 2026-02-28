@@ -1,4 +1,4 @@
-import { Contract } from 'ethers';
+import { Contract, JsonRpcProvider } from 'ethers';
 import NFT_ABI from '../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json';
 import MARKET_ABI from '../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json';
 
@@ -14,8 +14,6 @@ export const getMarketContract = (signerOrProvider: any): Contract => {
   return new Contract(MARKET_ADDRESS, MARKET_ABI.abi, signerOrProvider)
 }
 
-// 只读合约实例（用于未连接钱包时读取数据）
-import { JsonRpcProvider } from 'ethers'
 const defaultProvider = new JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL)
 export const readOnlyNFTContract = getNFTContract(defaultProvider)
 export const readOnlyMarketContract = getMarketContract(defaultProvider)
