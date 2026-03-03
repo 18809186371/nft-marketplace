@@ -19,17 +19,18 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'ipfs.io',
         port: '',
-        pathname: '/ipfs/**', // This pattern matches the path in your error
+        pathname: '/ipfs/**',
       },
-      // 如果未来需要其他图床，在这里添加
-      // {
-      //   protocol: 'https',
-      //   hostname: 'ipfs.io',
-      // },
-      // {
-      //   protocol: 'https',
-      //   hostname: '**.nftstorage.link',
-      // },
+      {
+        protocol: 'https',
+        hostname: 'ipfs.filebase.io',
+        pathname: '/ipfs/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.ipfs.dweb.link',
+        pathname: '/**',
+      },
     ],
   },
 }

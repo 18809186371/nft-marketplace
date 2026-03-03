@@ -1,5 +1,6 @@
 'use client'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import NFTCard from './NFTCard'
 import { Loader2, Search, Filter } from 'lucide-react'
 import { Input } from '@/components/ui/input'
@@ -12,7 +13,7 @@ export default function NFTList() {
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<'price' | 'newest'>('newest')
-
+  const router = useRouter()
   useEffect(() => {
     loadNFTs()
   }, [])
@@ -22,6 +23,7 @@ export default function NFTList() {
     setError(null)
     try {
       const listedNFTs = await fetchListedNFTs()
+      console.log('listedNFTs', listedNFTs);
       setNfts(listedNFTs)
     } catch (err: any) {
       console.error('加载NFT失败:', err)
@@ -29,6 +31,10 @@ export default function NFTList() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleMintNFT = () => {
+    router.push('/mint')
   }
 
   const filteredNFTs = nfts
@@ -122,12 +128,12 @@ export default function NFTList() {
           <div className="text-5xl mb-4">🛍️</div>
           <h3 className="text-xl font-semibold mb-2">暂无NFT在售</h3>
           <p className="text-gray-600 mb-6">成为第一个上架NFT的用户吧！</p>
-          <Button>去铸造NFT</Button>
+          <Button onClick={handleMintNFT}>去铸造NFT</Button>
         </div>
       )}
 
       {/* 分页（暂未实现，保留占位） */}
-      {filteredNFTs.length > 0 && (
+      {/* {filteredNFTs.length > 0 && (
         <div className="flex justify-center items-center gap-2">
           <Button variant="outline" disabled>上一页</Button>
           <Button variant="default">1</Button>
@@ -137,7 +143,7 @@ export default function NFTList() {
           <Button variant="outline">10</Button>
           <Button variant="outline">下一页</Button>
         </div>
-      )}
+      )} */}
     </div>
   )
 }

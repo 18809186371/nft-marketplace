@@ -20,7 +20,7 @@ export default function MintPage() {
   const { isConnected, address } = useWeb3()
   const [isMinting, setIsMinting] = useState(false)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
-
+  const [mintStep, setMintStep] = useState<string>('')
   const {
     register,
     handleSubmit,
@@ -56,6 +56,7 @@ export default function MintPage() {
     try {
       const result = await mintNFT(data, address, (progress) => {
         console.log('Progress:', progress)
+        setMintStep(progress.message)
       })
 
       if (result.success) {
@@ -211,7 +212,7 @@ export default function MintPage() {
                       {isMinting ? (
                         <>
                           <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                          Minting...
+                          {mintStep}
                         </>
                       ) : !isConnected ? (
                         'Connect Wallet to Mint'

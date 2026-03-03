@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import NFTCard from '@/components/marketplace/NFTCard'
 import { Alchemy, Network } from 'alchemy-sdk'
 import { ethers } from 'ethers'
+import { useRouter } from 'next/navigation';
 import ListNFTModal from '@/components/marketplace/ListNFTModal'
 import SimpleNFT_ABI from '../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
 import Marketplace_ABI from '../../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json'
@@ -46,7 +47,7 @@ export default function ProfilePage() {
   const [isCancelling, setIsCancelling] = useState(false)
   const [showListModal, setShowListModal] = useState(false)
   const [selectedNFT, setSelectedNFT] = useState<NFTItem | null>(null)
-
+  const router = useRouter()
   // 获取当前钱包账户
   useEffect(() => {
     if (typeof window !== 'undefined' && window.ethereum) {
@@ -136,6 +137,10 @@ export default function ProfilePage() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleMintNFT = () => {
+    router.push('/mint')
   }
 
   const handleCancelListing = async (nft: NFTItem) => {
@@ -283,11 +288,11 @@ export default function ProfilePage() {
               <div className="flex justify-between items-center">
                 <h2 className="text-2xl font-bold">我的NFT藏品</h2>
                 <div className="flex gap-3">
-                  <Button variant="outline" className="gap-2">
+                  {/* <Button variant="outline" className="gap-2">
                     <Filter className="h-4 w-4" />
                     筛选
-                  </Button>
-                  <Button className="gap-2 bg-gradient-to-r from-purple-600 to-pink-600">
+                  </Button> */}
+                  <Button className="gap-2 bg-gradient-to-r from-purple-600 to-pink-600" onClick={handleMintNFT}>
                     <PlusCircle className="h-4 w-4" />
                     铸造新NFT
                   </Button>
