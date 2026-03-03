@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { Alchemy, Network, NftMetadataBatchToken } from 'alchemy-sdk';
-import Marketplace_ABI from '../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json';
+import Marketplace_ABI from '@/abis/NFTMarketPlace.json';
 import pLimit from 'p-limit';
 
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string;

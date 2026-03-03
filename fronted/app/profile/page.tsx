@@ -11,8 +11,7 @@ import { Alchemy, Network } from 'alchemy-sdk'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/navigation';
 import ListNFTModal from '@/components/marketplace/ListNFTModal'
-import SimpleNFT_ABI from '../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
-import Marketplace_ABI from '../../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json'
+import Marketplace_ABI from '@/abis/NFTMarketPlace.json'
 
 // 环境变量
 const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string

@@ -12,8 +12,8 @@ import { Header } from '@/components/Header'
 import { Button } from '@/components/ui/button'
 import { formatEther, ethers } from 'ethers'
 import { Alchemy, Network } from 'alchemy-sdk'
-import SimpleNFT_ABI from '../../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
-import Marketplace_ABI from '../../../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json'
+import SimpleNFT_ABI from '@/abis/SimpleNFT.json'
+import Marketplace_ABI from '@/abis/NFTMarketPlace.json'
 
 // 环境变量
 const ALCHEMY_API_KEY = process.env.NEXT_PUBLIC_ALCHEMY_API_KEY as string

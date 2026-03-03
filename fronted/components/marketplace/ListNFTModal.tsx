@@ -8,8 +8,8 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Loader2 } from 'lucide-react'
-import SimpleNFT_ABI from '../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
-import Marketplace_ABI from '../../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json'
+import SimpleNFT_ABI from '@/abis/SimpleNFT.json'
+import Marketplace_ABI from '@/abis/NFTMarketPlace.json'
 
 interface ListNFTModalProps {
   nft: {

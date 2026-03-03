@@ -4,7 +4,7 @@ import { MintFormData } from './types'
 import { ethers, ZeroAddress } from 'ethers' // 引入 ZeroAddress
 import { S3Client, PutObjectCommand, HeadObjectCommand } from '@aws-sdk/client-s3'
 import { v4 as uuidv4 } from 'uuid'
-import NFT_ABI from '../../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json'
+import NFT_ABI from '@/abis/SimpleNFT.json'
 
 // 环境变量配置
 const NFT_CONTRACT_ADDRESS = process.env.NEXT_PUBLIC_NFT_CONTRACT_ADDRESS as string

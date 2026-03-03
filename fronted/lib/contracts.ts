@@ -1,6 +1,6 @@
 import { Contract, JsonRpcProvider } from 'ethers';
-import NFT_ABI from '../../artifacts/contracts/SimpleNFT.sol/SimpleNFT.json';
-import MARKET_ABI from '../../artifacts/contracts/NFTMarketPlace.sol/NFTMarketPlace.json';
+import NFT_ABI from '@/abis/SimpleNFT.json';
+import MARKET_ABI from '@/abis/NFTMarketPlace.json';
 
 const NFT_ADDRESS = process.env.NEXT_PUBLIC_NFT_ADDRESS as string
 const MARKET_ADDRESS = process.env.NEXT_PUBLIC_NFT_MARKETPLACE_ADDRESS as string
