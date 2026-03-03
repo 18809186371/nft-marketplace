@@ -123,13 +123,15 @@ export async function fetchListedNFTs() {
 
     return activeListings.map((listing, index) => {
       const meta = metadataList[index];
+      // @ts-ignore
       const raw = meta?.rawMetadata || {};
-      
-      const imageUrl = 
-        meta?.image?.original || 
-        meta?.image?.cachedUrl || 
-        meta?.image?.thumbnailUrl || 
-        raw.image || 
+
+      const imageUrl =
+        // @ts-ignore
+        meta?.image?.original ||
+        meta?.image?.cachedUrl ||
+        meta?.image?.thumbnailUrl ||
+        raw.image ||
         '';
 
       return {

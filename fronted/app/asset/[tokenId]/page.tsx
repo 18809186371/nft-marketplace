@@ -73,6 +73,7 @@ export default function AssetDetailPage() {
           metadata = nftMetadata.raw.metadata || {}
           name = metadata.name || name
           description = metadata.description || ''
+          // @ts-ignore
           image = nftMetadata.image?.original || nftMetadata.image?.cachedUrl || ''
         } catch (err) {
           console.warn('Alchemy 获取元数据失败，尝试手动获取', err)

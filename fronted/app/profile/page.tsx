@@ -106,9 +106,12 @@ export default function ProfilePage() {
         }
 
         // 从 Alchemy 返回的 metadata 中提取信息
+        // @ts-ignore
         const name = nft.metadata?.name || `NFT #${tokenId}`
+        // @ts-ignore
         const description = nft.metadata?.description || ''
         // 将 IPFS URI 转换为 HTTP 网关链接
+        // @ts-ignore
         let image = nft.metadata?.image || nft.image?.cachedUrl || ''
         if (image.startsWith('ipfs://')) {
           image = `https://ipfs.io/ipfs/${image.replace('ipfs://', '')}`
