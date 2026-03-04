@@ -2,6 +2,7 @@
 
 这是一个完整的去中心化 NFT 市场（NFT Marketplace）学习项目，基于以太坊 **Sepolia** 测试网开发。包含智能合约（Hardhat）和前端应用（Next.js），实现了 NFT 的铸造、上架、购买以及个人藏品展示等功能。
 
+体验地址：https://nft-marketplace-one-coral.vercel.app
 ---
 
 ## ✨ 项目特点
