@@ -21,14 +21,14 @@ export default function MarketplacePage() {
               探索、收藏和交易来自全球创作者的独家NFT。
               从艺术、音乐到虚拟资产，开启你的数字收藏之旅。
             </p>
-            <div className="flex flex-wrap gap-4">
+            {/* <div className="flex flex-wrap gap-4">
               <button className="px-8 py-4 bg-white text-purple-900 font-bold rounded-xl hover:bg-gray-100 transition shadow-lg">
                 开始探索
               </button>
               <button className="px-8 py-4 bg-white/10 backdrop-blur-sm border border-white/20 text-white font-bold rounded-xl hover:bg-white/20 transition">
                 如何购买？
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
