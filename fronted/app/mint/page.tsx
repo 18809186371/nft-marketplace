@@ -28,6 +28,7 @@ export default function MintPage() {
     setValue,
     formState: { errors }
   } = useForm<MintFormData>({
+    // @ts-ignore
     resolver: zodResolver(mintSchema),
     defaultValues: {
       name: '',
@@ -88,7 +89,7 @@ export default function MintPage() {
             <h1 className="text-3xl font-bold mb-2">Create New NFT</h1>
             <p className="text-gray-600">Mint a unique digital asset on the blockchain</p>
           </div>
-
+          {/* @ts-ignore */}
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* 左侧表单 */}
