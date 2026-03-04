@@ -34,7 +34,7 @@
 
 ### 1. 克隆仓库
 ```bash
-git clone [https://github.com/your-username/nft-marketplace.git](https://github.com/your-username/nft-marketplace.git)
+git clone [https://github.com/18809186371/nft-marketplace.git](https://github.com/18809186371/nft-marketplace.git)
 cd nft-marketplace
 ```
 ### 2. 安装依赖
