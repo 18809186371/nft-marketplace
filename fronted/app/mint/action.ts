@@ -126,7 +126,7 @@ export async function mintNFT(
     const network = await provider.getNetwork()
 
     // ----- 强制使用 Sepolia 测试网 -----
-    const SEPOLIA_CHAIN_ID = 11155111n
+    const SEPOLIA_CHAIN_ID = BigInt(11155111);
     if (network.chainId !== SEPOLIA_CHAIN_ID) {
       try {
         await window.ethereum.request({
